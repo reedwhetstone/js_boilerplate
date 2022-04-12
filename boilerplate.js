@@ -3,18 +3,19 @@
 const { exec, execSync } = require('child_process');
 const fs = require('fs');
 const folderName = process.argv[2] || 'newProject';
+// set file location for creation with the directory var. this ensures the file is created on desktop
+// instead of wherever I am in the terminal.
+const directory = '/Users/reedwhetstone/Desktop/';
 
 try {
-  // set file location for creation. this ensures the file is created on desktop
-  // instead of wherever I am in the terminal.
-  execSync(`cd /Users/reedwhetstone/Desktop`);
+  execSync(`cd ${directory}`);
   // command structure is $ node boilerplate.js "TYPE_FOLDERNAME_HERE"
   // currently only set to accept a single word folder name. If you'd like multiple words simply type_folder_like_this
-  // if you do not specify, the defualt is folder name "New_Proj"
-  fs.mkdirSync(folderName);
+  // if you do not specify, the default is folder name "New_Proj"
+  fs.mkdirSync(`${directory}${folderName}`);
   // set to call bootstrapCDN, links app.js, style.css
   fs.writeFileSync(
-    `${folderName}/index.html`,
+    `${directory}${folderName}/index.html`,
     `<!DOCTYPE html>
 <html lang="en">
 
@@ -39,9 +40,9 @@ try {
 
 </html>`
   );
-  fs.writeFileSync(`${folderName}/app.js`, '');
+  fs.writeFileSync(`${directory}${folderName}/app.js`, '');
   fs.writeFileSync(
-    `${folderName}/style.css`,
+    `${directory}${folderName}/style.css`,
     `@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
 * {
@@ -60,7 +61,7 @@ body {
 }`
   );
   // executes vscode to open the new folder and contents. must have vscode set up to work with terminal.
-  execSync(`code ${folderName}`);
+  execSync(`code ${directory}${folderName}`);
 } catch (e) {
   console.log('SOMETHING WENT WRONG!');
   console.log(e);
